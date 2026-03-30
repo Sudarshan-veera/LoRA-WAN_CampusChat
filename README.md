@@ -1,0 +1,63 @@
+//EXAMPLE-1
+//REFER CODE IN THE NEXT FILE
+//the below code is used to theoretically estimate the maximum threshold distance for lora communication using three nodes(Master-1,slave-2)
+# Go to ns-3 directory
+cd ~/ns-allinone-3.43/ns-3.43
+
+# Go to scratch folder
+cd scratch
+
+# Create new simulation file
+touch lora-research-sim.cc
+
+# Open file in nano editor (paste your code here)
+nano lora-research-sim.cc
+
+# After pasting code, save and exit nano:
+#   CTRL+O  (Enter to save)
+#   CTRL+X  (Exit)
+
+# Go back to ns-3 main folder
+cd ..
+
+# Run the simulation
+./ns3 run scratch/lora-research-sim
+susan@DEV:~$ cd ~/ns-allinone-3.43/ns-3.43
+susan@DEV:~/ns-allinone-3.43/ns-3.43$ ./ns3 run scratch/lora-research-sim
+[0/2] Re-checking globbed directories...
+ninja: no work to do.
+LoRa Master-Slave Chat Simulation
+
+---- Distance Test: 20 meters ----
+
+---- Distance Test: 30 meters ----
+
+---- Distance Test: 50 meters ----
+Slave 1 sent HELLO at 1 s (distance 20 m)
+Slave 1 sent HELLO at 1 s (distance 30 m)
+Slave 1 sent HELLO at 1 s (distance 50 m)
+Master received HELLO from Slave 1 at 1 s
+Master received HELLO from Slave 1 at 1 s
+Master received HELLO from Slave 1 at 1 s
+Slave 2 sent HELLO at 2 s (distance 20 m)
+Slave 2 sent HELLO at 2 s (distance 30 m)
+Slave 2 sent HELLO at 2 s (distance 50 m)
+Master received HELLO from Slave 2 at 2 s
+Master received HELLO from Slave 2 at 2 s
+Master received HELLO from Slave 2 at 2 s
+ACK received by Slave 1 at 6 s
+ACK received by Slave 1 at 6 s
+ACK received by Slave 1 at 6 s
+ACK received by Slave 2 at 7 s
+ACK received by Slave 2 at 7 s
+ACK received by Slave 2 at 7 s
+
+===== Simulation Results =====
+Packets Sent: 6
+Packets Received: 6
+Packet Loss (%): 0
+Average Delay: 5 sec
+Estimated TX Power: 0.3 W
+Estimated RX Power: 0.12 W
+susan@DEV:~/ns-allinone-3.43/ns-3.43$
+
