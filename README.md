@@ -24,6 +24,8 @@ This project simulates a master-slave LoRa communication network using NS-3, dem
 - The Simulink model simulates the physical-layer chirp spread spectrum (CSS) signal used by LoRa for modulation/demodulation analysis
 
 ## Running the NS-3 Simulation
+
+![Simulation Output](simulation-output.png)
 cd ~/ns-allinone-3.43/ns-3.43
 cp lora-research-sim.cc scratch/
 ./ns3 run scratch/lora-research-sim
