@@ -1,5 +1,7 @@
 # LoRa-Based Campus Chat System Using Token Passing
 
+![LoRa Chirp Signal Diagram](chirp-diagram.png)
+
 A LoRaWAN-based low-power, long-range communication system enabling message passing between distributed nodes across a campus, using a token-passing algorithm to avoid collisions.
 
 ## Overview
