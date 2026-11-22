@@ -2,7 +2,7 @@
 
 ![LoRa Chirp Signal Diagram](chirp-diagram.png)
 
-A LoRaWAN-based low-power, long-range communication system enabling message passing between distributed nodes across a campus, using a token-passing algorithm to avoid collisions.
+A LoRa-style token-passing chat between campus nodes, simulated in plain NS-3 (it does not use the NS-3 lorawan module). The idea is a low-power, long-range system enabling message passing between distributed nodes across a campus, using a token-passing algorithm to avoid collisions.
 
 ## Overview
 This project simulates a master-slave LoRa communication network using NS-3, demonstrating collision-free message transmission with 5-second transmit windows per node via a token-passing scheme. A Simulink model (chirp2.mdl) is included to simulate LoRa chirp signal generation and demodulation (CSS modulation).
@@ -26,9 +26,11 @@ This project simulates a master-slave LoRa communication network using NS-3, dem
 ## Running the NS-3 Simulation
 
 ![Simulation Output](simulation-output.png)
+```bash
 cd ~/ns-allinone-3.43/ns-3.43
 cp lora-research-sim.cc scratch/
 ./ns3 run scratch/lora-research-sim
+```
 
 ## Running the Simulink Model
 1. Open MATLAB (R2021a or later recommended)

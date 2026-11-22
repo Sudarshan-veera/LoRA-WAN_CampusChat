@@ -1,0 +1,9 @@
+build/
+cmake-build-*/
+*.log
+*.pcap
+*.tr
+slprj/
+*.slxc
+*.autosave
+.DS_Store
