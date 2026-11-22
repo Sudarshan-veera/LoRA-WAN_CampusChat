@@ -1,58 +1,54 @@
-# LoRa-Based Campus Chat System Using Token Passing
+# LoRa-style master and slave simulation (NS-3)
 
 ![LoRa Chirp Signal Diagram](chirp-diagram.png)
 
-A LoRa-style token-passing chat between campus nodes, simulated in plain NS-3 (it does not use the NS-3 lorawan module). The idea is a low-power, long-range system enabling message passing between distributed nodes across a campus, using a token-passing algorithm to avoid collisions.
+A small NS-3 simulation of a master node and two slave nodes sending short messages over distances of 20, 30 and 50 metres. The long-term goal is a low-power, long-range campus chat where nodes take turns using a token, so they never transmit at the same time.
 
-## Overview
-This project simulates a master-slave LoRa communication network using NS-3, demonstrating collision-free message transmission with 5-second transmit windows per node via a token-passing scheme. A Simulink model (chirp2.mdl) is included to simulate LoRa chirp signal generation and demodulation (CSS modulation).
+## Where this stands
 
-## Tech Stack
-- Simulation: NS-3 (v3.43), MATLAB/Simulink
-- Language: C++
-- Build system: Ninja
+This repo is an early step toward that goal. It is **not** a LoRaWAN simulation and it does **not** implement token passing yet. It uses plain NS-3 core, network and mobility modules, not the NS-3 `lorawan` module.
 
-## Repository Structure
-├── lora-research-sim.cc   # NS-3 network simulation
-├── chirp2.mdl              # Simulink model for LoRa chirp signal (CSS) simulation
+What the code in `lora-research-sim.cc` does today:
 
-## How It Works
-- One master node coordinates communication with multiple slave nodes
-- Each slave node holds the "token" for a 5-second window to transmit
-- Prevents packet collisions common in shared-medium LoRa networks
-- Master acknowledges each received message before passing the token
-- The Simulink model simulates the physical-layer chirp spread spectrum (CSS) signal used by LoRa for modulation/demodulation analysis
+- Slave 1 sends a HELLO at 1 s and slave 2 sends one at 2 s, for each of the three test distances.
+- The HELLO arrives after the propagation delay (distance divided by the speed of light).
+- The master answers each HELLO with an ACK 5 seconds after it receives it.
+- At the end it prints packets sent and received, loss, the average delay, and an estimated power figure (fixed constants of 0.05 W per packet sent and 0.02 W per packet received, not a measurement).
+- The three distance tests are all scheduled at the same simulated times (1 s and 2 s), so they overlap instead of running one after another.
 
-## Running the NS-3 Simulation
+Because there is no radio or channel model, packet loss is always 0% and the average delay is just the 5 second ACK delay plus a propagation delay of under 200 nanoseconds. Treat the numbers as a check that the event flow works, not as a result about LoRa.
+
+`chirp2.mdl` is a separate Simulink model of LoRa chirp (CSS) signal generation and FFT analysis. It is not connected to the NS-3 code.
+
+## Run the NS-3 simulation
 
 ![Simulation Output](simulation-output.png)
+
 ```bash
 cd ~/ns-allinone-3.43/ns-3.43
 cp lora-research-sim.cc scratch/
 ./ns3 run scratch/lora-research-sim
 ```
 
-## Running the Simulink Model
-1. Open MATLAB (R2021a or later recommended)
-2. Open chirp2.mdl
-3. Run the model to observe chirp signal generation, modulation, and FFT-based frequency analysis
-4. Key blocks in the model: random integer generator, up/down chirp generation (sin/cos), FFT analysis, and a counter-based synchronization block
+## Run the Simulink model
 
-## Sample NS-3 Results
+1. Open MATLAB (R2021a or later) and open `chirp2.mdl`.
+2. Run the model to see chirp generation, modulation and the FFT analysis.
+
+## Sample output
 
 | Metric | Value |
 |---|---|
-| Packets Sent | 6 |
-| Packets Received | 6 |
-| Packet Loss | 0% |
-| Average Delay | 5 sec |
-| Estimated TX Power | 0.3 W |
-| Estimated RX Power | 0.12 W |
+| Packets sent | 6 |
+| Packets received | 6 |
+| Packet loss | 0% |
+| Average delay | about 5 s (the ACK delay) |
+| Estimated TX power | 0.3 W (6 x 0.05) |
+| Estimated RX power | 0.12 W (6 x 0.02) |
 
-Tested at distances of 20m, 30m, and 50m between nodes with zero packet loss at all tested ranges.
+## Next steps
 
-## Future Improvements
-- Test at longer ranges (500m+) to find real-world threshold distance
-- Add dynamic token timeout handling for node failure
-- Extend to support more than 2 slave nodes
-- Integrate Simulink chirp model output directly into the NS-3 physical layer simulation
+- Implement the token itself: only the node holding it transmits, then it passes to the next node.
+- Add a real channel model so range, loss and collisions mean something.
+- Try the NS-3 `lorawan` module for the physical layer.
+- Support more than two slaves, and handle a node that dies while holding the token.
